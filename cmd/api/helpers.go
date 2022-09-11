@@ -11,6 +11,9 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+// define a new type named envelope. empty interface means it can be any type
+type envelope map[string]interface{}
+
 // we create our method to read id
 func (app *application) readIDParam(r *http.Request) (int64, error) {
 	//use the "paramsfromcontect()" function to get the request context on a slice
@@ -24,7 +27,7 @@ func (app *application) readIDParam(r *http.Request) (int64, error) {
 }
 
 // we create our method write json to create responses
-func (app *application) writeJSON(w http.ResponseWriter, status int, data interface{}, headers http.Header) error {
+func (app *application) writeJSON(w http.ResponseWriter, status int, data envelope, headers http.Header) error {
 	//convert our map into json object
 	//marshal indent to separate key form value. to appear on seprate line.
 	js, err := json.MarshalIndent(data, "", "\t")
